@@ -1,0 +1,110 @@
+version: 2
+
+models:
+  - name: orders_t
+    columns:
+      - name: order_id
+        data_tests:
+          - not_null:
+              config:
+                severity: warn
+          - unique:
+              config:
+                severity: warn
+      - name: total_amount
+        data_tests:
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: ">= 0"
+              config:
+                error_if: ">0"
+
+  - name: customers_t
+    columns:
+      - name: customer_id
+        data_tests:
+          - not_null:
+              config:
+                severity: warn
+          - unique:
+              config:
+                severity: warn
+
+  - name: employees_t
+    columns:
+      - name: employee_id
+        data_tests:
+          - not_null:
+              config:
+                severity: warn
+          - unique:
+              config:
+                severity: warn
+      - name: salary
+        data_tests:
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: ">= 0"
+              config:
+                error_if: ">0"
+
+  - name: products_t
+    columns:
+      - name: product_id
+        data_tests:
+          - not_null:
+              config:
+                severity: warn
+          - unique:
+              config:
+                severity: warn
+      - name: price
+        data_tests:
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: ">= 0"
+              config:
+                error_if: ">0"
+
+  - name: stores_t
+    columns:
+      - name: store_id
+        data_tests:
+          - not_null:
+              config:
+                severity: warn
+          - unique:
+              config:
+                severity: warn
+
+  - name: order_item_t
+    columns:
+      - name: order_item_id
+        data_tests:
+          - not_null:
+              config:
+                severity: warn
+          - unique:
+              config:
+                severity: warn
+      - name: quantity
+        data_tests:
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: ">= 0"
+              config:
+                error_if: ">0"
+      - name: unit_price
+        data_tests:
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: ">= 0"
+              config:
+                error_if: ">0"
+      - name: line_amount
+        data_tests:
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: ">= 0"
+              config:
+                error_if: ">0"
