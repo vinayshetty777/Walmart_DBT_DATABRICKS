@@ -3,7 +3,7 @@ snapshots:
     relation: ref('eph_products')
     config:
       schema: gold
-      database: walmart
+      database: "{{ target.database }}"
       unique_key: product_id
       strategy: timestamp
       updated_at: product_updated_timestamp
