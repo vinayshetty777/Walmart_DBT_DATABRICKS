@@ -1,0 +1,31 @@
+bundle:
+  name: walmart_metric_views
+
+variables:
+  warehouse_id:
+    description: SQL warehouse used to run the view DDL.
+    default: 88712a7ffa1cbac4
+
+targets:
+  dev:
+    mode: development
+    default: true
+
+resources:
+  jobs:
+    deploy_walmart_metric_views:
+      name: deploy_walmart_metric_views [${bundle.target}]
+      tasks:
+        - task_key: create_base_views
+          sql_task:
+            warehouse_id: ${var.warehouse_id}
+            file:
+              path: ./src/base_views/base_views.sql
+
+        - task_key: create_metric_views
+          depends_on:
+            - task_key: create_base_views
+          sql_task:
+            warehouse_id: ${var.warehouse_id}
+            file:
+              path: ./src/metric_views/sales_order_metrics.sql
