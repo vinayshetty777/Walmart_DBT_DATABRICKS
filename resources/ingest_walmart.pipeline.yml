@@ -2,13 +2,13 @@ resources:
   pipelines:
     ingest_walmart:
       name: ingest_walmart
-      catalog: walmart
+      catalog: ${var.catalog}
       channel: PREVIEW
       ingestion_definition:
-        connection_name: walmart_lakebase_child
+        connection_name: ${var.lakebase_connection}
         objects:
           - table:
-              destination_catalog: walmart
+              destination_catalog: ${var.catalog}
               destination_schema: bronze
               source_catalog: walmart_db
               source_schema: raw
@@ -19,7 +19,7 @@ resources:
                     - updated_timestamp
                 scd_type: SCD_TYPE_1
           - table:
-              destination_catalog: walmart
+              destination_catalog: ${var.catalog}
               destination_schema: bronze
               source_catalog: walmart_db
               source_schema: raw
@@ -31,7 +31,7 @@ resources:
                   cursor_columns:
                     - updated_timestamp
           - table:
-              destination_catalog: walmart
+              destination_catalog: ${var.catalog}
               destination_schema: bronze
               source_catalog: walmart_db
               source_schema: raw
@@ -43,7 +43,7 @@ resources:
                   cursor_columns:
                     - updated_timestamp
           - table:
-              destination_catalog: walmart
+              destination_catalog: ${var.catalog}
               destination_schema: bronze
               source_catalog: walmart_db
               source_schema: raw
@@ -55,7 +55,7 @@ resources:
                   cursor_columns:
                     - updated_timestamp
           - table:
-              destination_catalog: walmart
+              destination_catalog: ${var.catalog}
               destination_schema: bronze
               source_catalog: walmart_db
               source_schema: raw
@@ -67,7 +67,7 @@ resources:
                   cursor_columns:
                     - updated_timestamp
           - table:
-              destination_catalog: walmart
+              destination_catalog: ${var.catalog}
               destination_schema: bronze
               source_catalog: walmart_db
               source_schema: raw

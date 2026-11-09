@@ -37,7 +37,7 @@ resources:
             file:
               path: /Workspace/Users/vinayshetty7899@gmail.com/.bundle/walmart_metric_views/dev/files/src/base_views/base_views.sql
               source: WORKSPACE
-            warehouse_id: 88712a7ffa1cbac4
+            warehouse_id: ${var.warehouse_id}
           timeout_seconds: 0
           webhook_notifications: {}
         - task_key: creating_metric_view
@@ -50,7 +50,7 @@ resources:
             file:
               path: /Workspace/Users/vinayshetty7899@gmail.com/.bundle/walmart_metric_views/dev/files/src/metric_views/sales_order_metrics.sql
               source: WORKSPACE
-            warehouse_id: 88712a7ffa1cbac4
+            warehouse_id: ${var.warehouse_id}
           timeout_seconds: 0
           webhook_notifications: {}
         - task_key: walmart_kpi_dashboard
@@ -61,7 +61,7 @@ resources:
             subscription:
               subscribers:
                 - user_name: vinayshetty7899@gmail.com
-            warehouse_id: 88712a7ffa1cbac4
+            warehouse_id: ${var.warehouse_id}
           disabled: false
           email_notifications: {}
           run_if: ALL_SUCCESS

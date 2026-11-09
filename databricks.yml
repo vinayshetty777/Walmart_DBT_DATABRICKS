@@ -4,9 +4,29 @@ bundle:
 include:
   - resources/*.yml
 
+variables:
+  catalog:
+    description: Unity Catalog catalog the ingestion and dbt models write to.
+    default: walmart
+  lakebase_connection:
+    description: UC connection to the Lakebase Postgres source.
+    default: walmart_lakebase_child
+  warehouse_id:
+    description: SQL warehouse used by the dbt and metric-view tasks.
+    default: 88712a7ffa1cbac4
+
 targets:
   dev:
     mode: development
     default: true
     workspace:
       host: https://dbc-a4e7f3b4-dfcf.cloud.databricks.com
+
+  prod:
+    mode: production
+    variables:
+      catalog: walmart_prod
+      lakebase_connection: walmart_lakebase_prod
+    workspace:
+      host: https://dbc-a4e7f3b4-dfcf.cloud.databricks.com
+      root_path: /Workspace/Users/vinayshetty7899@gmail.com/walmart_pipeline
