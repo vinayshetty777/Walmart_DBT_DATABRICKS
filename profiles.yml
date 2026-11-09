@@ -1,0 +1,14 @@
+# Profile used by Lakeflow Jobs dbt tasks (no warehouse_id on the task, so this file is read).
+# dbt_project.yml -> profile: walmart-dbt-project
+# The token is injected by Databricks at run time as DBT_ACCESS_TOKEN; it is never stored here.
+walmart-dbt-project:
+  target: dev
+  outputs:
+    dev:
+      type: databricks
+      catalog: walmart
+      schema: default
+      host: "{{ env_var('DBT_HOST', 'dbc-a4e7f3b4-dfcf.cloud.databricks.com') }}"
+      http_path: /sql/1.0/warehouses/88712a7ffa1cbac4
+      token: "{{ env_var('DBT_ACCESS_TOKEN') }}"
+      threads: 4
