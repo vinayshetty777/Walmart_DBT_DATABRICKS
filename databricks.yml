@@ -1,0 +1,12 @@
+bundle:
+  name: walmart_pipeline
+
+include:
+  - resources/*.yml
+
+targets:
+  dev:
+    mode: development
+    default: true
+    workspace:
+      host: https://dbc-a4e7f3b4-dfcf.cloud.databricks.com

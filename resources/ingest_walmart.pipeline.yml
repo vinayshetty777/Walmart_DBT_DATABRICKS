@@ -1,0 +1,82 @@
+resources:
+  pipelines:
+    ingest_walmart:
+      name: ingest_walmart
+      catalog: walmart
+      channel: PREVIEW
+      ingestion_definition:
+        connection_name: walmart_lakebase_child
+        objects:
+          - table:
+              destination_catalog: walmart
+              destination_schema: bronze
+              source_catalog: walmart_db
+              source_schema: raw
+              source_table: customers
+              table_configuration:
+                query_based_connector_config:
+                  cursor_columns:
+                    - updated_timestamp
+                scd_type: SCD_TYPE_1
+          - table:
+              destination_catalog: walmart
+              destination_schema: bronze
+              source_catalog: walmart_db
+              source_schema: raw
+              source_table: employees
+              table_configuration:
+                primary_keys:
+                  - employee_id
+                query_based_connector_config:
+                  cursor_columns:
+                    - updated_timestamp
+          - table:
+              destination_catalog: walmart
+              destination_schema: bronze
+              source_catalog: walmart_db
+              source_schema: raw
+              source_table: order_items
+              table_configuration:
+                primary_keys:
+                  - order_item_id
+                query_based_connector_config:
+                  cursor_columns:
+                    - updated_timestamp
+          - table:
+              destination_catalog: walmart
+              destination_schema: bronze
+              source_catalog: walmart_db
+              source_schema: raw
+              source_table: orders
+              table_configuration:
+                primary_keys:
+                  - order_id
+                query_based_connector_config:
+                  cursor_columns:
+                    - updated_timestamp
+          - table:
+              destination_catalog: walmart
+              destination_schema: bronze
+              source_catalog: walmart_db
+              source_schema: raw
+              source_table: products
+              table_configuration:
+                primary_keys:
+                  - product_id
+                query_based_connector_config:
+                  cursor_columns:
+                    - updated_timestamp
+          - table:
+              destination_catalog: walmart
+              destination_schema: bronze
+              source_catalog: walmart_db
+              source_schema: raw
+              source_table: stores
+              table_configuration:
+                primary_keys:
+                  - store_id
+                query_based_connector_config:
+                  cursor_columns:
+                    - updated_timestamp
+        source_type: POSTGRESQL
+      schema: bronze
