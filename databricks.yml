@@ -21,6 +21,46 @@ targets:
     default: true
     workspace:
       host: https://dbc-a4e7f3b4-dfcf.cloud.databricks.com
+    resources:
+      jobs:
+        walmart_pipeline_job:
+          tasks:
+            - task_key: dbt_transformation
+              depends_on:
+                - task_key: Lakebase_ingestion
+              environment_key: dbt-default
+              dbt_task:
+                commands:
+                  - dbt deps
+                  - dbt build
+                profiles_directory: .
+                project_directory: .
+                source: GIT
+            - task_key: base_view
+              depends_on:
+                - task_key: dbt_transformation
+              sql_task:
+                file:
+                  path: /Workspace/Users/vinayshetty7899@gmail.com/.bundle/walmart_metric_views/dev/files/src/base_views/base_views.sql
+                  source: WORKSPACE
+                warehouse_id: ${var.warehouse_id}
+            - task_key: creating_metric_view
+              depends_on:
+                - task_key: base_view
+              sql_task:
+                file:
+                  path: /Workspace/Users/vinayshetty7899@gmail.com/.bundle/walmart_metric_views/dev/files/src/metric_views/sales_order_metrics.sql
+                  source: WORKSPACE
+                warehouse_id: ${var.warehouse_id}
+            - task_key: walmart_kpi_dashboard
+              depends_on:
+                - task_key: creating_metric_view
+              dashboard_task:
+                dashboard_id: 01f1dbb72d27169084f8bab32f678e41
+                subscription:
+                  subscribers:
+                    - user_name: vinayshetty7899@gmail.com
+                warehouse_id: ${var.warehouse_id}
 
   prod:
     mode: production
@@ -30,3 +70,18 @@ targets:
     workspace:
       host: https://dbc-a4e7f3b4-dfcf.cloud.databricks.com
       root_path: /Workspace/Users/vinayshetty7899@gmail.com/walmart_pipeline
+    resources:
+      jobs:
+        walmart_pipeline_job:
+          tasks:
+            - task_key: dbt_transformation
+              depends_on:
+                - task_key: Lakebase_ingestion
+              environment_key: dbt-default
+              dbt_task:
+                commands:
+                  - dbt deps
+                  - dbt build --target prod
+                profiles_directory: .
+                project_directory: .
+                source: GIT
